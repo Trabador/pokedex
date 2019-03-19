@@ -21,7 +21,7 @@ class PokeCard extends StatelessWidget {
         goToDetailView(context);
       },
       child: Card(
-        elevation: 3,
+        elevation: 5,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
