@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 import '../models/pokemon.dart';
 import './poke_detail.dart';
 
@@ -25,7 +26,12 @@ class PokeCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(width: 50, height: 50, child: Image.network(pokemon.img)),
+            Stack(
+              children: <Widget>[
+                Container(width: 50, height: 50, child: FadeInImage.assetNetwork( placeholder: 'assets/load.gif' , image: pokemon.img)),
+              ],
+            ),
+            
             Text(
               pokemon.name,
               textAlign: TextAlign.center,
