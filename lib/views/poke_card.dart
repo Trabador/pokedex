@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 import '../models/pokemon.dart';
 import './poke_detail.dart';
 
@@ -9,42 +8,51 @@ class PokeCard extends StatelessWidget {
 
   PokeCard(this.pokemon);
 
-  void goToDetailView(BuildContext context){
-    Navigator.push(context, 
-      MaterialPageRoute(builder: (context) => PokeDetail(pokemon))
-    );
+  void goToDetailView(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => PokeDetail(pokemon)));
   }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         goToDetailView(context);
       },
       child: Card(
-        elevation: 5,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Stack(
+          elevation: 5,
+          child: Padding(
+            padding: EdgeInsets.all(10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Container(width: 50, height: 50, child: FadeInImage.assetNetwork( placeholder: 'assets/load.gif' , image: pokemon.img)),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                          width: 50,
+                          height: 50,
+                          child: FadeInImage.assetNetwork(
+                              placeholder: 'assets/load.gif',
+                              image: pokemon.img)),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text(
+                        pokemon.name,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  child: Text(pokemon.number,
+                      textAlign: TextAlign.end, style: TextStyle(fontSize: 18)),
+                ),
               ],
             ),
-            
-            Text(
-              pokemon.name,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-            ),
-            Text(
-              pokemon.number,
-              textAlign: TextAlign.center, 
-              style: TextStyle(fontSize: 10)
-            )
-          ],
-        ),
-      ),
+          )),
     );
   }
 }
