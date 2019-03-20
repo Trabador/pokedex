@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
 import '../models/pokelist.dart';
-import '../models/pokemon.dart';
 import '../views/poke_card.dart';
 
 class Pokedex extends StatefulWidget {
@@ -17,20 +16,17 @@ class PokedexState extends State<Pokedex> {
       "https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json";
   bool _isloading = true;
   PokeList pokeList;
-  List<Pokemon> lazylist;
   final increment = 20;
-  int currentLength = 0;
-  int test;
+  int currentLength;
 
   void fetchData() async {
     final response = await http.get(_url);
     final jsonDecoded = json.decode(response.body);
     final list = PokeList.fromJson(jsonDecoded['pokemon']);
     setState(() {
-      test = 0;
       pokeList = list;
-      lazylist = [];
       _isloading = false;
+      currentLength = 0;
       _loadMore();
     });
   }
@@ -42,26 +38,12 @@ class PokedexState extends State<Pokedex> {
   }
 
   void _loadMore(){
-    // List<Pokemon> auxiliarList = [];
-    // for (var i = currentLength; (i <= currentLength + increment) && (i <=pokeList.pokemons.length); i++) {
-    //     auxiliarList.add(pokeList.pokemons[i]);
-    // }
-    // int size = this.test + increment;
-    // print(pokeList.pokemons.length);
-    // // size = size > pokeList.pokemons.length? pokeList.pokemons.length : size+increment;
-    // if(size > pokeList.pokemons.length)
-    //   size = pokeList.pokemons.length;
-
-    int size = test + increment; 
+    int size = currentLength + increment; 
     if(size >= pokeList.pokemons.length){
       size =pokeList.pokemons.length;
     }
-    print(size);
     setState(() {
-      // lazylist = []..addAll(lazylist)..addAll(auxiliarList);//append the lists
-      // currentLength = lazylist.length;
-      test = size;
-      print(test);
+      currentLength = size;
     });
   }
 
@@ -74,7 +56,7 @@ class PokedexState extends State<Pokedex> {
         child: LazyLoadScrollView(
           onEndOfPage: () { _loadMore(); },
           child: ListView.builder(
-            itemCount: this.test,
+            itemCount: this.currentLength,
             itemBuilder: (context, position){
               return PokeCard(pokeList.pokemons[position]);
             },
